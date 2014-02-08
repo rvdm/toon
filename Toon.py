@@ -12,10 +12,9 @@ similar functionality. """
 
 class Toon:
 	""" Log in to the Toon API, and do stuff. """
-	def __init__(self,username,password,toonurl = "https://toonopafstand.eneco.nl/"):
+	def __init__(self,username,password):
 		self.username = username
 		self.password = password
-		self.toonurl = toonurl
 		self.debug = 0
 
 	def login(self):
@@ -65,14 +64,22 @@ class Toon:
 		self.toonstate = json.loads(response.read()) # TODO: check for success
 
 	def getGasUsage(self):
+		if not hasattr(self, 'toonstate'):
+			self.retrieveToonState()
 		return self.toonstate["gasUsage"]
 
 	def getPowerUsage(self):
+		if not hasattr(self, 'toonstate'):
+			self.retrieveToonState()
 		return self.toonstate["powerUsage"]
 		
 	def getThermostatInfo(self):
+		if not hasattr(self, 'toonstate'):
+			self.retrieveToonState()
 		return self.toonstate["thermostatInfo"]
 
 	def getThermostatStates(self):
+		if not hasattr(self, 'toonstate'):
+			self.retrieveToonState()
 		return self.toonstate["thermostatStates"]
 
