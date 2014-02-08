@@ -27,7 +27,7 @@ password are the same as the ones you use for 'mijn eneco'.
 The login response returns a JSON blob with some address and agreement
 information:
 
-'''
+```
 {u'agreements': [{u'agreementId': u'SOMEINTEGER',
                   u'agreementIdChecksum': u'SOMECHECKSUM',
                   u'city': u'SOMECITY',
@@ -42,7 +42,7 @@ information:
  u'passwordHash': u'SOMEHASH',
  u'sample': False,
  u'success': True}
-'''
+```
 
 2) 
 Grab the JSON response from the login request, and extract the agreement
@@ -64,7 +64,7 @@ and agreementIdChecksum as parameters. The API expects an additional
 parameter called random, containing a random UUID.
 
 The return JSON looks like this:
-'''
+```
 {u'gasUsage': {u'avgDayValue': 25498.57,
                u'avgValue': 1062.44,
                u'dayCost': 0.0,
@@ -103,7 +103,7 @@ The return JSON looks like this:
                                   {u'dhw': 1, u'id': 3, u'tempValue': 1200},
                                   {u'dhw': 0, u'id': 4, u'tempValue': 600},
                                   {u'dhw': 1, u'id': 5, u'tempValue': 600}]}}
-'''
+```
 
 
 Example
