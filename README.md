@@ -135,7 +135,7 @@ toonclient.py
 toonclient.py is a simple client for the Toon module:
 ```
 rvdm@serpent:~/code/toon$ ./toonclient.py -h
-usage: toonclient.py [-h] [-t] [-p] -U USERNAME -P PASSWORD
+usage: toonclient.py [-h] [-t] [-p] [-s TARGETTEMP] -U USERNAME -P PASSWORD
 
 Communicate with the Eneco Toon thermostat
 
@@ -143,6 +143,8 @@ optional arguments:
   -h, --help            show this help message and exit
   -t                    return current temperature in Celsius
   -p                    return current power usage in Watts
+  -s TARGETTEMP, --settemp TARGETTEMP
+                        set target temperature
   -U USERNAME, --username USERNAME
                         the Toon username
   -P PASSWORD, --password PASSWORD

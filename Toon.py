@@ -83,3 +83,13 @@ class Toon:
 			self.retrieveToonState()
 		return self.toonstate["thermostatStates"]
 
+	def setThermostat(self,temperature):
+		targettemp = int(temperature)*100
+		formdata = {    "clientId": self.sessiondata["clientId"],
+                                "clientIdChecksum": self.sessiondata["clientIdChecksum"],
+				"value": targettemp,
+                                "random": uuid.uuid1() }
+		data_encoded = urllib.urlencode(formdata)
+		url = "https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/setPoint?%s" % data_encoded
+		response = self.opener.open(url)
+
