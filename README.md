@@ -6,7 +6,7 @@ A simple python module to interface with the Eneco Toon 'intelligent' thermostat
 The Toon API and clients
 ====
 
-The Toon device is a rebranded 'cuby' (http://quby.nl/) thermostat. It
+The Toon device is a rebranded 'quby' (http://quby.nl/) thermostat. It
 interfaces with a few web services at Eneco, and gathers power, gas and
 thermostat information.
 When using the Toon along with the 'Toon op afstand' option, some of the
