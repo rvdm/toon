@@ -134,7 +134,7 @@ toonclient.py
 ====
 toonclient.py is a simple client for the Toon module:
 ```
-toonclient.py -h
+rvdm@serpent:~/code/toon$ ./toonclient.py -h
 usage: toonclient.py [-h] [-t] [-p] -U USERNAME -P PASSWORD
 
 Communicate with the Eneco Toon thermostat
