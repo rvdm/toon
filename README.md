@@ -9,13 +9,11 @@ Example
 ```
 from Toon import Toon
 
-toonurl = "https://toonopafstand.eneco.nl/"
 username = "YOURTOONUSERNAME"
 password = "YOURTOONPASSWORD"
 
 toon = Toon(username,password)
 toon.login()
-toon.retrieveToonState()
 
 thermostat = toon.getThermostatInfo()
 power = toon.getPowerUsage()
