@@ -15,6 +15,8 @@ class Toon:
 	def __init__(self,username,password):
 		self.username = username
 		self.password = password
+		self.toonstate = None
+		self.sessiondata = None
 		self.debug = 0
 
 	def login(self):
@@ -53,8 +55,12 @@ class Toon:
 		data_encoded = urllib.urlencode(formdata)
 		url = "https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/logout?%s" % data_encoded
 		response = self.opener.open(url)
+		self.toonstate = None
+		self.sessiondata = None
 
 	def retrieveToonState(self):
+		if self.toonstate != None:	
+			return
 		formdata = { 	"clientId": self.sessiondata["clientId"],
 				"clientIdChecksum": self.sessiondata["clientIdChecksum"],
 				"random": uuid.uuid1() }
@@ -64,23 +70,19 @@ class Toon:
 		self.toonstate = json.loads(response.read()) # TODO: check for success
 
 	def getGasUsage(self):
-		if not hasattr(self, 'toonstate'):
-			self.retrieveToonState()
+		self.retrieveToonState()
 		return self.toonstate["gasUsage"]
 
 	def getPowerUsage(self):
-		if not hasattr(self, 'toonstate'):
-			self.retrieveToonState()
+		self.retrieveToonState()
 		return self.toonstate["powerUsage"]
 		
 	def getThermostatInfo(self):
-		if not hasattr(self, 'toonstate'):
-			self.retrieveToonState()
+		self.retrieveToonState()
 		return self.toonstate["thermostatInfo"]
 
 	def getThermostatStates(self):
-		if not hasattr(self, 'toonstate'):
-			self.retrieveToonState()
+		self.retrieveToonState()
 		return self.toonstate["thermostatStates"]
 
 	def setThermostat(self,temperature):
