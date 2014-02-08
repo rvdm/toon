@@ -59,7 +59,7 @@ class Toon:
 		self.sessiondata = None
 
 	def retrieveToonState(self):
-		if self.toonstate != None:	
+		if self.toonstate is not None:	
 			return
 		formdata = { 	"clientId": self.sessiondata["clientId"],
 				"clientIdChecksum": self.sessiondata["clientIdChecksum"],
@@ -68,6 +68,10 @@ class Toon:
 		url = "https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState?%s" % data_encoded
 		response = self.opener.open(url)
 		self.toonstate = json.loads(response.read()) # TODO: check for success
+
+	def refreshToonState(self):
+		self.toonstate = None
+		self.retrieveToonState()
 
 	def getGasUsage(self):
 		self.retrieveToonState()
