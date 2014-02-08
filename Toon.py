@@ -50,7 +50,7 @@ class Toon:
 		self.toonstate = None
 		self.sessiondata = None
 
-	def retrieveToonState(self):
+	def retrieve_toon_state(self):
 		if self.toonstate is not None:	
 			return
 		formdata = { 	"clientId": self.sessiondata["clientId"],
@@ -59,27 +59,27 @@ class Toon:
 		r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState", params=formdata)
 		self.toonstate = r.json()
 
-	def refreshToonState(self):
+	def refresh_toon_state(self):
 		self.toonstate = None
-		self.retrieveToonState()
+		self.retrieve_toon_state()
 
-	def getGasUsage(self):
-		self.retrieveToonState()
+	def get_gas_usage(self):
+		self.retrieve_toon_state()
 		return self.toonstate["gasUsage"]
 
-	def getPowerUsage(self):
-		self.retrieveToonState()
+	def get_power_usage(self):
+		self.retrieve_toon_state()
 		return self.toonstate["powerUsage"]
 		
-	def getThermostatInfo(self):
-		self.retrieveToonState()
+	def get_thermostat_info(self):
+		self.retrieve_toon_state()
 		return self.toonstate["thermostatInfo"]
 
-	def getThermostatStates(self):
-		self.retrieveToonState()
+	def get_thermostat_states(self):
+		self.retrieve_toon_state()
 		return self.toonstate["thermostatStates"]
 
-	def setThermostat(self,temperature):
+	def set_thermostat(self,temperature):
 		targettemp = int(temperature)*100
 		formdata = {    "clientId": self.sessiondata["clientId"],
                                 "clientIdChecksum": self.sessiondata["clientIdChecksum"],

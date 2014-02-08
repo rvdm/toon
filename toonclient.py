@@ -19,18 +19,18 @@ password = args.password
 toon = Toon(username,password)
 toon.login()
 
-if args.t == True:
-	thermostat = toon.getThermostatInfo()
+if args.t:
+	thermostat = toon.get_thermostat_info()
 	temp = float(thermostat["currentTemp"]) / 100
 	print "current_temp:%.2f" % temp
 
-if args.p == True:
-	power = toon.getPowerUsage()
+if args.p:
+	power = toon.get_power_usage()
 	print "current_powerusage:%d" % power["value"]
 
 if args.targettemp != None:
 	print "set_temp:%s" % args.targettemp
-	toon.setThermostat(args.targettemp)
+	toon.set_thermostat(args.targettemp)
 	
 toon.logout()
 
