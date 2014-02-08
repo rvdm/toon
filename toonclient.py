@@ -28,7 +28,7 @@ if args.p == True:
 	power = toon.getPowerUsage()
 	print "current_powerusage:%d" % power["value"]
 
-if hasattr(args,'targettemp'):
+if args.targettemp != None:
 	print "set_temp:%s" % args.targettemp
 	toon.setThermostat(args.targettemp)
 	
