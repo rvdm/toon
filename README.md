@@ -17,6 +17,9 @@ to the 'toon op afstand' web pages at https://toonopafstand.eneco.nl/ .
 The toonopafstand web app consumes an API being served out of the same
 domain.
 
+As the Toon client is written in JavaScript, it's easy to reverse-engineer
+the calls, and to re-create them in python.
+
 Authentication
 ===
 Authentication to the Toon API is a two-step process. No cookies or referer
@@ -126,3 +129,23 @@ temp = float(thermostat["currentTemp"]) / 100
 print "Current temperature: %.2f degrees Celsius" % temp
 print "Current power usage: %d Watt" % power["value"]
 ```
+
+toonclient.py
+====
+toonclient.py is a simple client for the Toon module:
+```
+toonclient.py -h
+usage: toonclient.py [-h] [-t] [-p] -U USERNAME -P PASSWORD
+
+Communicate with the Eneco Toon thermostat
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t                    return current temperature in Celsius
+  -p                    return current power usage in Watts
+  -U USERNAME, --username USERNAME
+                        the Toon username
+  -P PASSWORD, --password PASSWORD
+                        the Toon password
+```
+
