@@ -121,8 +121,8 @@ password = "YOURTOONPASSWORD"
 toon = Toon(username,password)
 toon.login()
 
-thermostat = toon.getThermostatInfo()
-power = toon.getPowerUsage()
+thermostat = toon.get_thermostat_info()
+power = toon.get_powerusage()
 toon.logout()
 
 temp = float(thermostat["currentTemp"]) / 100
