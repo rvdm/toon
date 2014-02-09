@@ -7,7 +7,9 @@ import argparse
 parser = argparse.ArgumentParser(description='Communicate with the Eneco Toon thermostat')
 parser.add_argument('-t', help='return current temperature in Celsius', action='store_true')
 parser.add_argument('-p', help='return current power usage in Watts', action='store_true')
+parser.add_argument('-c', help='return current program state', action='store_true')
 parser.add_argument('-s', '--settemp', help='set target temperature', dest='targettemp')
+parser.add_argument('-C', '--setstate', help='set target state', dest='targetstate')
 parser.add_argument('-U', '--username', help='the Toon username', required=True, dest='username')
 parser.add_argument('-P', '--password', help='the Toon password', required=True, dest='password')
 
@@ -27,6 +29,14 @@ if args.t:
 if args.p:
         power = toon.get_power_usage()
         print "current_powerusage:%d" % power["value"]
+
+if args.c:
+        state = toon.get_program_state()
+        print "current_state:%d" % state
+
+if args.targetstate is not None:
+        print "set_state:%s" % args.targetstate
+        toon.set_program_state(args.targetstate)
 
 if args.targettemp is not None:
         print "set_temp:%s" % args.targettemp
