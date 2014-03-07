@@ -92,7 +92,7 @@ class Toon:
 
 	def get_program_state(self):
 		self.retrieve_toon_state()
-		return self.toonstate["thermostatInfo"]["programState"]
+		return self.toonstate["thermostatInfo"]["activeState"]
 
 	def set_program_state(self,targetstate):
                 formdata = {"clientId": self.sessiondata["clientId"],
