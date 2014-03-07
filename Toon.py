@@ -98,7 +98,7 @@ class Toon:
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
                             "state": 2,
-                            "temperaturestate": targetstate,
+                            "temperatureState": targetstate,
                             "random": uuid.uuid1()}
                 r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/schemeState", params=formdata)
 
