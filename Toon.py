@@ -83,7 +83,7 @@ class Toon:
                 return self.toonstate["thermostatStates"]
 
         def set_thermostat(self, temperature):
-                targettemp = int(temperature)*100
+                targettemp = int(temperature*100)
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
                             "value": targettemp,
