@@ -4,6 +4,7 @@ import sys
 import uuid
 import pprint
 import requests
+import time
 
 """ The Toon module impersonates the Eneco Toon mobile app, and implements
 similar functionality. """
@@ -17,6 +18,8 @@ class Toon:
                 self.toonstate = None
                 self.sessiondata = None
                 self.debug = 0
+                self.max_retries = 3
+                self.retry_interval = 1
 
         def login(self):
                 """ Log in to the toon API, and set up a session. """
@@ -59,8 +62,18 @@ class Toon:
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
                             "random": uuid.uuid1()}
-                r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState", params=formdata)
-                self.toonstate = r.json()
+
+                self.toonstate = {}
+                retries = 0
+                while 'powerUsage' not in self.toonstate:
+                        retries += 1
+                        if retries > self.max_retries:
+                                raise Exception('Incomplete response')
+                        elif retries > 1:
+                                time.sleep(self.retry_interval)
+
+                        r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState", params=formdata)
+                        self.toonstate = r.json()
 
         def refresh_toon_state(self):
                 self.toonstate = None
