@@ -20,6 +20,7 @@ class Toon:
                 self.debug = 0
                 self.max_retries = 3
                 self.retry_interval = 1
+                self.required_datakeys = [ 'deviceStatusInfo', 'gasUsage', 'powerUsage', 'thermostatInfo' ]
 
         def login(self):
                 """ Log in to the toon API, and set up a session. """
@@ -65,7 +66,7 @@ class Toon:
 
                 self.toonstate = {}
                 retries = 0
-                while 'powerUsage' not in self.toonstate:
+                while not all(x in self.toonstate for x in self.required_datakeys):
                         retries += 1
                         if retries > self.max_retries:
                                 raise Exception('Incomplete response')
