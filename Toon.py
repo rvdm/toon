@@ -57,6 +57,10 @@ class Toon:
                 self.toonstate = None
                 self.sessiondata = None
 
+        def set_maxretries(self,max_retries):
+                """ Set maximum of retries (default: 3). """
+                self.max_retries = max_retries
+
         def retrieve_toon_state(self):
                 if self.toonstate is not None:
                         return

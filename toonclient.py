@@ -19,6 +19,7 @@ username = args.username
 password = args.password
 
 toon = Toon(username, password)
+toon.set_maxretries(5)
 toon.login()
 
 if args.t:
