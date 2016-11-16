@@ -34,25 +34,13 @@ class Toon:
                                  params=formdata)
                 self.sessiondata = r.json()
 
-                # Now re-use the agreement details to do the actual
-                # authentication. This establishes a session, and allows
-                # state to be retrieved.
-                # TODO: check for variable existence / throw exception on
-                # failure
-                formdata = {"clientId": self.sessiondata["clientId"],
-                            "clientIdChecksum": self.sessiondata["clientIdChecksum"],
-                            "agreementId": self.sessiondata["agreements"][0]["agreementId"],
-                            "agreementIdChecksum": self.sessiondata["agreements"][0]["agreementIdChecksum"],
-                            "random": uuid.uuid1()}
-                r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/start", params=formdata)
-
         def logout(self):
                 """ Log out of the API.
                 This is needed, as toon keeps a maximum amount of display clients.
                 Too many logins lead to 500 responses from the API. """
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
-                            "random": uuid.uuid1()}
+                            "random": uuid.uuid4()}
                 r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/logout", params=formdata)
                 self.toonstate = None
                 self.sessiondata = None
@@ -60,13 +48,13 @@ class Toon:
         def set_maxretries(self,max_retries):
                 """ Set maximum of retries (default: 3). """
                 self.max_retries = max_retries
-
+                
         def retrieve_toon_state(self):
-                if self.toonstate is not None:
-                        return
+                self.refresh_toon_state()
+
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
-                            "random": uuid.uuid1()}
+                            "random": uuid.uuid4()}
 
                 self.toonstate = {}
                 retries = 0
@@ -78,11 +66,32 @@ class Toon:
                                 time.sleep(self.retry_interval)
 
                         r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState", params=formdata)
-                        self.toonstate = r.json()
+                        if r.status_code == 200:
+                           self.toonstate = r.json()
+                           return
+                        else:
+                        	self.logout()
+                        	raise Exception("retrieve status: ", r.status_code)
 
         def refresh_toon_state(self):
-                self.toonstate = None
-                self.retrieve_toon_state()
+        	# refreshing the session helps with the keep-alive.
+        	
+                # Now re-use the agreement details to do the actual
+                # authentication. This establishes a session, and allows
+                # state to be retrieved.
+                # TODO: check for variable existence / throw exception on
+                # failure
+                formdata = {"clientId": self.sessiondata["clientId"],
+                            "clientIdChecksum": self.sessiondata["clientIdChecksum"],
+                            "agreementId": self.sessiondata["agreements"][0]["agreementId"],
+                            "agreementIdChecksum": self.sessiondata["agreements"][0]["agreementIdChecksum"],
+                            "random": uuid.uuid4()}
+                r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/start", params=formdata)
+                if r.status_code == 200:
+                	 return
+                else:
+                   self.logout()
+                   raise Exception("refresh status: ", r.status_code)
 
         def get_gas_usage(self):
                 self.retrieve_toon_state()
